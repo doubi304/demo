@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="header">
+                <span class="back">back</span>
+                <h2 class="title">我要找版</h2>
+            </div>
+            <div class="input">
+                <div class="info">
+                    <textarea name="" class="desc" placeholder=" 请描述要找的面料"></textarea>
+                </div>
+                <div class="img">
+                    <div class="img-list">+</div>
+                    <div class="add">+</div>
+                    <p class="tip">请上传要找的面料/辅料的外观图片，细节图片</p>
+                </div>
+            </div>
+        </div>
+        <div class="select">
+            <ul>
+                <li class="list">
+                    <span class="base">采购的数量</span>
+                    <div class="number block">
+                        <span class="minus" @click="minus">-</span>
+                        <span class="count">{{count}}</span>
+                        <span class="addcount" @click="add">+</span>
+                    </div>
+                </li>
+                <li class="list">
+                    <span class="base">可接受类似或者定做</span>
+                    <div class="accept block">
+                        <input type="radio" name="support" class="">接受
+                        <input type="radio" name="support" class="">不接受
+                    </div>
+                </li>
+                <li class="list">
+                    <span class="base">现货还是期货</span>
+                    <div class="goods block">
+                        <input type="radio" name="good" class="">期货
+                        <input type="radio" name="good" class="">现货
+                    </div>
+                </li>
+                <li class="list">
+                    <span class="base">现实找</span>
+                    <div class="time block">
+                        <span class="hour">{{time}}小时</span>
+                        <span class="timeSelect" @click=changeTime>></span>
+                    </div>
+                    <div class="selectTime" v-show='tag'>
+                        <ul class="seek" @click="hide($event)" ref="seek">
+                            <li>1小时</li>
+                            <li>2小时</li>
+                            <li>3小时</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="list">
+                    <span class="base">允许客服联系你</span>
+                    <div class="phone block">
+                        <input type="text" placeholder="输入你的手机号">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="price">
+            <div class="price-wrapper">
+                <h2 class="total">￥{{total}}</h2>
+                <p class="fee">付费发布</p>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="jquery-1.11.0.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    count: 1,
+                    time: 1,
+                    fee: 30,
+                    // total: 0,
+                    tag: false
+                }
+            },
+            computed: {
+                total() {
+                    if (this.time === 1) {
+                        this.fee = 30;
+                    } else if (this.time === 2) {
+                        this.fee = 20;
+                    } else if (this.time === 3) {
+                        this.fee = 10;
+                    }
+                    return this.count * this.fee;
+                }
+            },
+            methods: {
+                minus() {
+                    if (this.count === 1) {
+                        return;
+                    } else {
+                        this.count--;
+                    }
+                },
+                add() {
+                    this.count++;
+                },
+                changeTime() {
+                    this.tag = true;
+                    // alert(this.$refs.seek.children.length);
+                },
+                hide(event) {
+                    this.tag = false;
+                    let child = this.$refs.seek.children;
+                    let target = event.target;
+                    let index = parseInt(target.innerText);
+                    this.time = index;
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>
